@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-PT" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +24,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Merriweather:ital,wght@0,400;0,700;1,700&display=swap');
-        
+
         body {
             margin: 0;
             padding: 0;
@@ -32,19 +33,48 @@
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); }
-        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.5); }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
 
-        .serif { font-family: 'Merriweather', serif; }
-        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .serif {
+            font-family: 'Merriweather', serif;
+        }
+
         /* 3D Flip Utilities */
-        .perspective-1000 { perspective: 1000px; }
-        .transform-style-3d { transform-style: preserve-3d; }
-        .backface-hidden { backface-visibility: hidden; }
-        .rotate-y-180 { transform: rotateY(180deg); }
-        .group:hover .rotate-y-180 { transform: rotateY(180deg); } 
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        .group:hover .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
         .flip-card-inner {
             position: relative;
             width: 100%;
@@ -53,33 +83,71 @@
             transition: transform 0.8s;
             transform-style: preserve-3d;
         }
-        .group:hover .flip-card-inner { transform: rotateY(180deg); }
+
+        .group:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
 
         /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
         /* Print Styles */
         @media print {
-            .no-print { display: none !important; }
-            .print-only { display: block !important; }
-            body { background: white !important; color: black !important; -webkit-print-color-adjust: exact; }
-            #app-root { margin: 0; padding: 0; }
+            .no-print {
+                display: none !important;
+            }
+
+            .print-only {
+                display: block !important;
+            }
+
+            body {
+                background: white !important;
+                color: black !important;
+                -webkit-print-color-adjust: exact;
+            }
+
+            #app-root {
+                margin: 0;
+                padding: 0;
+            }
         }
     </style>
 </head>
-<body class="min-h-screen bg-[#5b21b6] bg-gradient-to-br from-[#4f46e5] to-[#7c3aed] dark:from-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-100 overflow-x-hidden selection:bg-indigo-200 transition-colors duration-500">
-    
+
+<body
+    class="min-h-screen bg-[#5b21b6] bg-gradient-to-br from-[#4f46e5] to-[#7c3aed] dark:from-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-100 overflow-x-hidden selection:bg-indigo-200 transition-colors duration-500">
+
     <!-- Background Texture -->
-    <div class="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none"></div>
+    <div
+        class="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 pointer-events-none">
+    </div>
 
     <!-- Main App Container -->
     <div id="app-root" class="relative z-10 flex flex-col min-h-screen"></div>
 
-    <!-- Scroll to Top Button -->
-    <button id="scrollTopBtn" onclick="scrollToTop()" class="fixed bottom-6 right-6 z-40 bg-indigo-600 text-white p-4 rounded-full shadow-xl opacity-0 pointer-events-none transition-all duration-300 hover:bg-indigo-700 hover:-translate-y-1 no-print">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    <!-- Floating Action Buttons -->
+    <div class="fixed bottom-6 right-6 flex flex-col gap-3 z-40 no-print">
+        <!-- Scroll to Top Button -->
+        <button id="scrollTopBtn" onclick="scrollToTop()"
+            class="bg-indigo-600 text-white p-4 rounded-full shadow-xl opacity-0 pointer-events-none transition-all duration-300 hover:bg-indigo-700 hover:-translate-y-1">
+            <i class="fas fa-arrow-up text-lg"></i>
+        </button>
+    </div>
 
     <!-- Modals Container -->
     <div id="modal-container"></div>
@@ -93,214 +161,234 @@
         };
 
         const TIMELINE_DATA = [
-            { year: '1822', title: 'Fundação Liberal', desc: 'Soberania na Nação, separação de poderes e direitos individuais.', target: '1822' },
-            { year: '1911', title: 'República', desc: 'Fim da Monarquia, laicização do Estado e supremacia parlamentar.', target: '1911' },
-            { year: '1933', title: 'Estado Novo', desc: 'Regime autoritário, corporativo e antiparlamentar de Salazar.', target: '1933' },
-            { year: '1976', title: 'Democracia', desc: 'Estado de Direito Democrático, sufrágio universal e direitos sociais.', target: '1976' }
+            { year: '1822', title: 'Fundação Liberal', desc: 'Soberania na Nação, separação de poderes e direitos individuais.', target: '1822', pdf: './constituicao1822.pdf' },
+            { year: '1911', title: 'República', desc: 'Fim da Monarquia, laicização do Estado e supremacia parlamentar.', target: '1911', pdf: './constituicao1911.pdf' },
+            { year: '1933', title: 'Estado Novo', desc: 'Regime autoritário, corporativo e antiparlamentar de Salazar.', target: '1933', pdf: './constituicao1933.pdf' },
+            { year: '1976', title: 'Democracia', desc: 'Estado de Direito Democrático, sufrágio universal e direitos sociais.', target: '1976', pdf: './constituicao1976.pdf' }
         ];
 
         const INTRO_DOSSIER = [
-          { t: "O Constitucionalismo como Sucessão de Ruturas", c: "A história constitucional portuguesa é marcada por uma sucessão de textos que representam verdadeiras ruturas radicais com o passado, mais do que simples revisões. É um campo de batalha ideológico entre visões distintas sobre soberania, arquitetura do poder e direitos." },
-          { t: "1822: O Marco Fundador do Liberalismo", c: "Representa a rutura profunda com o Antigo Regime. Inspirada nas Constituições de Cádis (1812) e francesa (1791), consagrou a soberania residente na Nação, a supremacia do Legislativo unicameral e um catálogo de direitos individuais (liberdade, segurança, propriedade, igualdade)." },
-          { t: "1826: O Compromisso Monárquico (Carta Outorgada)", c: "Uma concessão régia de D. Pedro IV (de cima para baixo). Introduziu o Poder Moderador (exclusivo do Rei) e o parlamentarismo bicameral com uma Câmara dos Pares nomeada. Representou um recuo face ao radicalismo de 1822." },
-          { t: "1911: A Inauguração do Regime Republicano", c: "Consolida a Revolução de 5 de Outubro. Aboliu a Monarquia e o Poder Real. Introduziu o laicismo radical (separação Igreja-Estado), abolição da pena de morte militar e um parlamentarismo de assembleia onde o Congresso detinha a supremacia absoluta." },
-          { t: "1933: A Institucionalização do Estado Novo", c: "Rutura total com o liberalismo. Criou um regime autoritário, corporativo e antiparlamentar. Enobreceu o Executivo (Salazar) e criou a Câmara Corporativa. As liberdades individuais foram esvaziadas por 'leis especiais' e pela polícia política (PIDE)." },
-          { t: "1976: A Consolidação da Democracia", c: "Fruto do 25 de Abril. Pela primeira vez, elaborada por uma Assembleia eleita por sufrágio universal. Consagrou o Estado de Direito democrático, um vasto elenco de direitos fundamentais e o sistema semipresidencial para equilibrar os poderes." }
+            { t: "O Constitucionalismo como Sucessão de Ruturas", c: "A história constitucional portuguesa é marcada por uma sucessão de textos fundamentais que representam verdadeiras ruturas radicais com os regimes precedentes, mais do que simples revisões. O movimento constitucional evoluiu como uma reação política às circunstâncias sociais e económicas de cada época, resultando num percurso pautado por uma veia revolucionária. Transformou-se num campo de batalha ideológico onde se confrontaram visões distintas sobre a soberania, a arquitetura do poder e os direitos dos cidadãos, oscilando entre extremos de primazia parlamentar, reforço régio/presidencial e, finalmente, a busca por um equilíbrio democrático." },
+            { t: "1822: O Marco Fundador do Liberalismo Vintista", c: "Resultado da Revolução Liberal do Porto (1820), movimento impulsionado contra a ocupação britânica e o afastamento da corte no Brasil, que reduzia Portugal a uma 'colónia de uma colónia'. Inspirada nas Constituições de Cádis (1812) e francesas (1791, 1795), consagrou a soberania residente na Nação (Art. 26.º) em oposição à soberania divina do monarca absolutista. Estabeleceu a supremacia do Legislativo unicameral (Cortes) com exclusividade da iniciativa legislativa e um Poder Executivo pertencente ao Rei através de Secretários de Estado responsáveis perante as Cortes. O Rei não possuía veto absoluto, apenas suspensivo (devolução às Cortes). Inaugurou o primeiro catálogo de direitos individuais (liberdade de expressão e imprensa, proibição de tortura, propriedade como direito 'sagrado e inviolável', igualdade perante a lei), representando um corte total com a sociedade de ordens e privilégios do Antigo Regime. A Assembleia Constituinte tinha 43 juristas em 100 deputados, refletindo o credo de que 'a Revolução não se dá pela força das armas, mas pela legislação'." },
+            { t: "1826: O Compromisso Monárquico (Carta Outorgada)", c: "Carta outorgada por D. Pedro IV num ato de autolimitação do poder absoluto (de cima para baixo), sem origem democrática, contrastando com a lógica representativa de 1822. Inspirada na Carta brasileira de 1824 e francesa de 1814. Introduziu o Poder Moderador como quarto poder (além dos três clássicos), exclusivo do Rei, chave de toda a organização política, exercido sem qualquer responsabilidade e com função de velar pela harmonia dos outros poderes. Estabeleceu bicameralismo com Câmara dos Deputados (eletiva) e Câmara dos Pares (vitalícia, hereditária, nomeada pelo Rei). Representou um recuo significativo face aos princípios liberais de 1822: atenuou a soberania popular (sendo uma concessão régia), reforçou os poderes monárquicos (Moderador + Executivo através dos ministros) e criou uma plataforma de 'meio-termo' que não satisfez nem liberais radicais nem absolutistas. A tensão entre este modelo e o de 1822 dominaria a política portuguesa nas décadas seguintes." },
+            { t: "1838: A Síntese Setembrista", c: "Emergindo da Revolução de Setembro de 1836, representou uma tentativa de recalibração e síntese compromissória entre a radicalidade democrática vintista e o pendor monárquico da Carta outorgada. Solução eclética que procurou uma plataforma intermédia. A característica mais marcante foi a supressão do Poder Moderador, regressando à clássica tripartição de poderes e representando um claro retorno ao espírito de 1822. Manteve o bicameralismo mas reformado: a Câmara dos Pares (vitalícia e hereditária) foi substituída pela Câmara dos Senadores, composta por membros eleitos. Em contrapartida ao enfraquecimento da posição régia com a perda do Poder Moderador, consagrou o veto real absoluto sobre a legislação. Posicionou-se deliberadamente entre os dois textos anteriores, aproximando-se do radicalismo de 1822 ao reafirmar a soberania nacional, mas acolhendo elementos da Carta de 1826 como a estrutura bicameral e o reforço do poder real. Teve curta vigência até 1842, quando um golpe de Estado restaurou a Carta de 1826, que vigoraria com revisões até 1910." },
+            { t: "1911: A Inauguração do Regime Republicano", c: "Formaliza a transição de regime após a Revolução de 5 de Outubro de 1910, abolindo a monarquia e instaurando a República. Elaborada por Assembleia Constituinte, teve como principais fontes a Constituição Republicana brasileira (1891), a Constituição suíça e a tradição liberal portuguesa (especialmente 1822). Procurou levar às últimas consequências os princípios do liberalismo democrático. Estabeleceu a separação entre Igreja e Estado (laicismo), extinguiu títulos nobiliárquicos (igualitarismo radical) e aboliu a pena de morte em qualquer caso, incluindo crimes militares. O sistema de governo foi um 'parlamentarismo de assembleia' com forte proeminência do Legislativo e debilidade do Executivo: o Congresso da República detinha o poder central, elegia e podia destituir o Presidente, que tinha papel largamente representativo, sem veto legislativo ou poder de dissolução do Congresso. Introduziu inovação pioneira na Europa: o controlo incidental e difuso da constitucionalidade das leis por influência do modelo norte-americano e brasileiro, atribuindo a todos os tribunais a competência para apreciar a conformidade das leis com a Constituição. A grande instabilidade política levaria ao colapso do regime e ao golpe militar de 1926." },
+            { t: "1933: A Institucionalização do Estado Novo", c: "Representa o enquadramento jurídico do Estado Novo e uma rutura total com a tradição liberal e democrática. Não emanou de assembleia constituinte eleita: o projeto foi obra de António de Oliveira Salazar, aprovado por plebiscito num contexto de liberdades restringidas. Institucionalizou regime autoritário, corporativo, conservador e antiparlamentar que se manteve 48 anos. A arquitetura do poder repudiou a separação de poderes liberal: engrandeceu o Poder Executivo (Governo e Presidente da República com vastas competências), autonomizou o Governo como órgão com competência própria pela primeira vez no constitucionalismo português (não dependente do parlamento), e criou a Câmara Corporativa como órgão consultivo representando interesses sociais, morais e económicos, refletindo a ideologia corporativista com influências do fascismo italiano. A abordagem aos direitos fundamentais foi ambígua e ilusória: consagrou expressamente direitos sociais (proteção da família, educação), mas estipulou que o exercício das liberdades clássicas (expressão, reunião, associação) seria regulado por 'leis especiais', que na prática as suprimiram através de censura prévia e autorização administrativa, esvaziando o conteúdo constitucional. O regime terminou com a Revolução de 25 de Abril de 1974." },
+            { t: "1976: A Consolidação da Democracia", c: "Fruto direto da Revolução de 25 de Abril de 1974, marca a transição para um Estado de Direito democrático. Pela primeira vez na história portuguesa, elaborada por Assembleia Constituinte eleita por sufrágio universal, direto e secreto. Reflete tensões e compromissos de um período de profunda transformação. A elaboração decorreu em contexto de grande turbulência pós-revolucionária, com pluralismo partidário e intenso confronto ideológico. Sofreu influências das constituições italiana, alemã (Lei Fundamental de Bona) e francesa. Na versão original, continha forte carga ideológica com referências explícitas à 'transição para o socialismo' e à 'apropriação coletiva dos principais meios de produção' (Arts. 2.º e 10.º originais). O sistema de governo semipresidencial foi desenhado deliberadamente para evitar os 'vícios inversos' dos regimes anteriores: tanto o parlamentarismo de assembleia de 1911 (executivo débil) como a excessiva concentração de poder de 1933. Inicialmente incluía o Conselho da Revolução (órgão militar garante da Constituição, extinto na revisão de 1982). O tratamento dos direitos fundamentais é o mais extenso e detalhado da história constitucional portuguesa: estabelece dualismo entre 'direitos, liberdades e garantias' e 'direitos económicos, sociais e culturais', consagra vasto elenco incluindo novos direitos (como o direito ao ambiente) e prevê abertura internacional com receção formal da Declaração Universal dos Direitos do Homem como critério de interpretação e integração das normas sobre direitos fundamentais." }
         ];
 
         const FLASHCARDS = [
-          { f: "O que é uma Constituição?", b: "O 'manual de instruções' de um país que define regras de poder e direitos." },
-          { f: "Soberania Nacional", b: "O poder pertence à Nação e não ao Rei sozinho (Princípio de 1822)." },
-          { f: "Poder Moderador", b: "A 'chave do poder' exclusiva do Rei para equilibrar outros poderes (1826)." },
-          { f: "Laicismo", b: "Separação total entre o Estado e as Igrejas (Grande marca de 1911)." },
-          { f: "Sufrágio Universal", b: "O direito de todos os adultos votarem, independentemente de riqueza ou sexo (1976)." },
-          { f: "Veto Suspensivo", b: "O Rei pode atrasar uma lei, mas não pode bloqueá-la se o Parlamento insistir." },
-          { f: "Veto Absoluto", b: "Capacidade total do monarca ou presidente de impedir a aprovação de uma lei." },
-          { f: "Corporativismo", b: "Sociedade organizada em grupos de interesses controlados pelo Estado (1933)." },
-          { f: "Câmara dos Pares", b: "Câmara alta composta por nobres e clero nomeados pelo Rei (1826)." },
-          { f: "Estado de Direito", b: "Regime onde as leis protegem o cidadão contra os abusos de quem governa." },
-          { f: "Plebiscito", b: "Consulta direta ao povo, usada em 1933 para aprovar a Constituição do Estado Novo." },
-          { f: "Estado Social", b: "Dever do Estado em garantir saúde, educação e proteção aos mais pobres (1976)." }
+            { f: "O que é uma Constituição?", b: "O 'manual de instruções' de um país que define regras de poder e direitos." },
+            { f: "Soberania Nacional", b: "O poder pertence à Nação e não ao Rei sozinho (Princípio de 1822)." },
+            { f: "Poder Moderador", b: "A 'chave do poder' exclusiva do Rei para equilibrar outros poderes (1826)." },
+            { f: "Laicismo", b: "Separação total entre o Estado e as Igrejas (Grande marca de 1911)." },
+            { f: "Sufrágio Universal", b: "O direito de todos os adultos votarem, independentemente de riqueza ou sexo (1976)." },
+            { f: "Veto Suspensivo", b: "O Rei pode atrasar uma lei, mas não pode bloqueá-la se o Parlamento insistir." },
+            { f: "Veto Absoluto", b: "Capacidade total do monarca ou presidente de impedir a aprovação de uma lei." },
+            { f: "Corporativismo", b: "Sociedade organizada em grupos de interesses controlados pelo Estado (1933)." },
+            { f: "Câmara dos Pares", b: "Câmara alta composta por nobres e clero nomeados pelo Rei (1826)." },
+            { f: "Estado de Direito", b: "Regime onde as leis protegem o cidadão contra os abusos de quem governa." },
+            { f: "Plebiscito", b: "Consulta direta ao povo, usada em 1933 para aprovar a Constituição do Estado Novo." },
+            { f: "Estado Social", b: "Dever do Estado em garantir saúde, educação e proteção aos mais pobres (1976)." }
         ];
 
         const INTRO_QUIZ = [
-          { q: "Qual foi a principal característica da Carta Constitucional de 1826 quanto à sua origem, em contraste com a de 1822?", o: ["Plebiscito nacional", "Vontade da Nação", "Concessão régia outorgada pelo monarca", "Imposição militar"], c: 2, f: "A Carta foi outorgada por D. Pedro IV, enquanto 1822 foi votada pelas Cortes." },
-          { q: "A Constituição de 1838 aboliu que elemento fundamental da Carta de 1826?", o: ["A monarquia", "O Poder Moderador", "O veto real", "O ensino laico"], c: 1, f: "1838 eliminou o 4º poder (Moderador) para regressar à tripartição clássica." },
-          { q: "Qual era a característica marcante da relação entre poderes na Constituição de 1911?", o: ["Supremacia do Executivo", "Poder absoluto do Presidente", "Clara supremacia do poder legislativo (Congresso)", "Corporativismo"], c: 2, f: "A 1ª República foi um parlamentarismo de assembleia onde o Congresso mandava." },
-          { q: "Por que razão a Constituição de 1822 é considerada a mais radical do liberalismo monárquico?", o: ["Deu voto às mulheres", "Acabou com a religião", "Consagrou a soberania da Nação com supremacia sobre o Rei", "Aboliu a propriedade"], c: 2, f: "Colocou as Cortes acima do monarca, reduzindo-o a um executor." },
-          { q: "Que traço distintivo marcou a Constituição de 1933 que instituiu o Estado Novo?", o: ["Pluralismo", "Adoção de um modelo Corporativista e Autoritário", "Liberdade de imprensa", "Eleições livres"], c: 1, f: "O corporativismo era a base da organização social e política de Salazar." },
-          { q: "O que define o 'Poder Constituinte'?", o: ["Poder de julgar crimes", "Poder de criar ou modificar a Constituição", "Poder do Rei", "Poder do Exército"], c: 1, f: "É a capacidade extraordinária de criar as regras fundamentais do Estado." },
-          { q: "Quantas Constituições definitivas (sem contar revisões) vigoraram em Portugal?", o: ["Duas", "Dez", "Seis (1822, 1826, 1838, 1911, 1933, 1976)", "Quatro"], c: 2, f: "Foram seis textos fundamentais que marcaram a nossa história." },
-          { q: "Qual o significado de 'Estado de Direito'?", o: ["O Estado manda em tudo", "O Governo está acima da Lei", "Todos, incluindo o Estado, obedecem à Lei", "Só os juízes mandam"], c: 2, f: "Garante que o poder é limitado pela lei para proteger os cidadãos." },
-          { q: "A Constituição de 1976 foi a primeira a garantir...", o: ["A Monarquia", "O Sufrágio Universal pleno", "A Escravatura", "A Inquisição"], c: 1, f: "Foi a primeira vez que todos os cidadãos maiores de idade puderam votar livremente." },
-          { q: "O 'Setembrismo' (1836) levou ao regresso provisório de que texto?", o: ["Carta de 1826", "Constituição de 1822", "Constituição de 1933", "Constituição Espanhola"], c: 1, f: "Os setembristas recuperaram o espírito radical de 1822 contra a Carta." }
+            { q: "Qual foi a principal característica da Carta Constitucional de 1826 quanto à sua origem, em contraste com a de 1822?", o: ["Plebiscito nacional", "Vontade da Nação", "Concessão régia outorgada pelo monarca", "Imposição militar"], c: 2, f: "A Carta foi outorgada por D. Pedro IV, enquanto 1822 foi votada pelas Cortes." },
+            { q: "A Constituição de 1838 aboliu que elemento fundamental da Carta de 1826?", o: ["A monarquia", "O Poder Moderador", "O veto real", "O ensino laico"], c: 1, f: "1838 eliminou o 4º poder (Moderador) para regressar à tripartição clássica." },
+            { q: "Qual era a característica marcante da relação entre poderes na Constituição de 1911?", o: ["Supremacia do Executivo", "Poder absoluto do Presidente", "Clara supremacia do poder legislativo (Congresso)", "Corporativismo"], c: 2, f: "A 1ª República foi um parlamentarismo de assembleia onde o Congresso mandava." },
+            { q: "Por que razão a Constituição de 1822 é considerada a mais radical do liberalismo monárquico?", o: ["Deu voto às mulheres", "Acabou com a religião", "Consagrou a soberania da Nação com supremacia sobre o Rei", "Aboliu a propriedade"], c: 2, f: "Colocou as Cortes acima do monarca, reduzindo-o a um executor." },
+            { q: "Que traço distintivo marcou a Constituição de 1933 que instituiu o Estado Novo?", o: ["Pluralismo", "Adoção de um modelo Corporativista e Autoritário", "Liberdade de imprensa", "Eleições livres"], c: 1, f: "O corporativismo era a base da organização social e política de Salazar." },
+            { q: "O que define o 'Poder Constituinte'?", o: ["Poder de julgar crimes", "Poder de criar ou modificar a Constituição", "Poder do Rei", "Poder do Exército"], c: 1, f: "É a capacidade extraordinária de criar as regras fundamentais do Estado." },
+            { q: "Quantas Constituições definitivas (sem contar revisões) vigoraram em Portugal?", o: ["Duas", "Dez", "Seis (1822, 1826, 1838, 1911, 1933, 1976)", "Quatro"], c: 2, f: "Foram seis textos fundamentais que marcaram a nossa história." },
+            { q: "Qual o significado de 'Estado de Direito'?", o: ["O Estado manda em tudo", "O Governo está acima da Lei", "Todos, incluindo o Estado, obedecem à Lei", "Só os juízes mandam"], c: 2, f: "Garante que o poder é limitado pela lei para proteger os cidadãos." },
+            { q: "A Constituição de 1976 foi a primeira a garantir...", o: ["A Monarquia", "O Sufrágio Universal pleno", "A Escravatura", "A Inquisição"], c: 1, f: "Foi a primeira vez que todos os cidadãos maiores de idade puderam votar livremente." },
+            { q: "O 'Setembrismo' (1836) levou ao regresso provisório de que texto?", o: ["Carta de 1826", "Constituição de 1822", "Constituição de 1933", "Constituição Espanhola"], c: 1, f: "Os setembristas recuperaram o espírito radical de 1822 contra a Carta." }
         ];
 
         const MODULES = {
-          '1822': {
-            id: '1822',
-            label: 'O Nascimento Liberal',
-            title: 'Constituição de 1822',
-            color: 'indigo',
-            sub: 'Do absolutismo à soberania da Nação.',
-            infoImage: './info1822.jpg',
-            videoSrc: './video1822.mp4',
-            guide: [
-                { t: "A Revolução de 1820", c: "Portugal estava devastado pelas invasões francesas e governado por generais ingleses enquanto o Rei estava no Brasil. A Revolução surgiu para restaurar a dignidade nacional e criar o 'manual de instruções' do país." },
-                { t: "Soberania na Nação", c: "A grande rutura: o poder já não vem de Deus para o Rei, mas reside na Nação. O Parlamento (Cortes) passa a ser unicameral e superior ao Rei." },
-                { t: "Separação de Poderes", c: "A Constituição consagrou a clássica divisão tripartida: Legislativo (Cortes), Executivo (Rei e Ministros) e Judicial (Juízes), rompendo com a concentração de poderes do Absolutismo." },
-                { t: "Supremacia das Cortes", c: "As Cortes (Parlamento) eram o centro da vida política. Sendo eleitas, representavam a vontade da Nação e tinham superioridade sobre o Rei, que não as podia dissolver." },
-                { t: "Direitos e Deveres", c: "Estabeleceu um catálogo de direitos fundamentais: liberdade, segurança e propriedade. Aboliu a tortura e a Inquisição, afirmando a dignidade humana, embora mantendo a escravatura nas colónias." },
-                { t: "O Rei Constitucional", c: "O monarca deixou de ser senhor absoluto para ser o 'primeiro magistrado da nação'. O seu poder foi limitado e o seu veto sobre as leis era apenas suspensivo, não definitivo." },
-                { t: "A Questão Religiosa", c: "Apesar do liberalismo, manteve o Catolicismo como religião oficial e única para os portugueses, proibindo o culto público de outras confissões, num compromisso com a tradição." }
-            ],
-            activity: { t: "O Puzzle dos Poderes", c: "Imagina que tens 3 caixas: Legislativo, Executivo e Judicial. No Absolutismo, o Rei tinha as 3. Em 1822, as peças separaram-se para garantir a liberdade. Que tarefas atribuirias às Cortes?" },
-            quiz: [
-                { q: "Qual a fonte estrangeira mais imediata e influente para a Constituição de 1822?", o: ["Constituição dos EUA (1787)", "Constituição de Cádis (1812)", "Carta Francesa (1814)", "Bill of Rights (1689)"], c: 1, f: "A Constituição espanhola de Cádis foi a grande inspiradora do vintismo." },
-                { q: "A decisão pré-constituinte de 1822 insurgiu-se diretamente contra:", o: ["A ocupação britânica", "A monarquia espanhola", "A revolução francesa", "O clero"], c: 0, f: "A Revolução Liberal de 1820 foi, em parte, uma reação ao domínio inglês em Portugal." },
-                { q: "Que conceito político fundamental substituiu a legitimidade paternalista do monarca?", o: ["Soberania Nacional", "Direito Divino", "Absolutismo", "Corporativismo"], c: 0, f: "O poder passou a residir na Nação e não na figura do Rei." },
-                { q: "Como se caracterizava o Parlamento (Cortes) em 1822?", o: ["Bicameral", "Unicameral", "Tricameral", "Consultivo"], c: 1, f: "Era constituído apenas por uma Câmara de Deputados eleita." },
-                { q: "Qual era o poder do Rei sobre as leis aprovadas pelas Cortes?", o: ["Veto absoluto", "Veto suspensivo", "Nenhum poder", "Poder de emenda"], c: 1, f: "O Rei podia adiar (suspender) a lei, mas se as Cortes insistissem, tinha de promulgar." },
-                { q: "Quem estava explicitamente excluído do direito de voto em 1822?", o: ["Comerciantes", "Proprietários", "Mulheres e analfabetos", "Militares"], c: 2, f: "O sufrágio não era totalmente universal; mulheres e servos/analfabetos foram excluídos." },
-                { q: "O que eram as 'Bases da Constituição' de 1821?", o: ["Um rascunho secreto", "Um documento provisório", "Um tratado com Espanha", "Uma lei agrária"], c: 1, f: "Foi um texto temporário para vigorar enquanto a Constituição completa era redigida." },
-                { q: "Qual o evento que levou à suspensão da Constituição em 1823?", o: ["A Vilafrancada", "A Maria da Fonte", "O 5 de Outubro", "A Implantação da República"], c: 0, f: "A Vilafrancada marcou o golpe absolutista que suspendeu o texto liberal." },
-                { q: "Segundo a Constituição, quem detinha exclusivamente o poder judicial?", o: ["O Rei", "As Cortes", "Os Juízes", "O Governo"], c: 2, f: "Estabeleceu-se a separação de poderes, com tribunais independentes." },
-                { q: "Qual a posição da Constituição de 1822 sobre a religião?", o: ["Liberdade total", "Catolicismo como única religião da Nação", "Ateísmo de Estado", "Protestantismo"], c: 1, f: "Embora liberal, manteve o Catolicismo como religião oficial e única para os nacionais." },
-                { q: "Os deputados às Cortes Constituintes eram maioritariamente...", o: ["Operários", "Juristas e Magistrados", "Militares de baixa patente", "Agricultores"], c: 1, f: "A burguesia letrada dominou a elaboração do texto." },
-                { q: "A Constituição de 1822 inspirou-se na tradição do...", o: ["Direito Natural", "Direito Canónico", "Direito Feudal", "Direito Soviético"], c: 0, f: "Os direitos naturais do homem foram a base filosófica." },
-                { q: "O sufrágio para eleição dos deputados era...", o: ["Universal e Direto", "Direto", "Indireto (em graus)", "Censitário muito restrito"], c: 1, f: "Ao contrário de Cádis (indireto), Portugal optou pelo sufrágio direto." },
-                { q: "O que aconteceu aos forais e privilégios feudais?", o: ["Foram abolidos", "Foram reforçados", "Foram mantidos", "Transformados em imposto"], c: 0, f: "O liberalismo visava destruir a ordem do Antigo Regime." },
-                { q: "A soberania em 1822 residia em quem?", o: ["Rei", "Deus", "Nação", "Exército"], c: 2, f: "A Nação passou a ser a fonte do poder." },
-                { q: "Qual foi o argumento de D. João VI para anular a Constituição em 1823?", o: ["Era demasiado longa", "Incompatível com hábitos do povo", "Cópia da inglesa", "Apoiada por Espanha"], c: 1, f: "Alegou que a Constituição não servia os costumes tradicionais portugueses." },
-                { q: "As Cortes de 1822 reuniam-se...", o: ["Apenas quando o Rei chamava", "Automaticamente (direito próprio)", "A cada 4 anos", "No Porto"], c: 1, f: "As Cortes tinham soberania para reunir sem depender da vontade real." },
-                { q: "A Constituição de 1822 garantiu a liberdade de...", o: ["Imprensa", "Culto público (para outras religiões)", "Escravatura", "Divórcio"], c: 0, f: "A liberdade de imprensa foi uma das grandes conquistas liberais." },
-                { q: "Quem organizou a Revolução Liberal do Porto?", o: ["O Sinédrio", "A Maçonaria Inglesa", "O Papa", "Napoleão"], c: 0, f: "Foi o Sinédrio, liderado por Manuel Fernandes Tomás." },
-                { q: "Quantas câmaras tinha o Parlamento?", o: ["Uma", "Duas", "Três", "Quatro"], c: 0, f: "O unicameralismo foi uma marca radical face ao bicameralismo conservador." }
-            ]
-          },
-          '1911': {
-            id: '1911',
-            label: 'A Rutura Republicana',
-            title: 'Constituição de 1911',
-            color: 'purple',
-            sub: 'O fim da Monarquia e o Laicismo.',
-            infoImage: './info1911.jpg',
-            videoSrc: './video1911.mp4',
-            guide: [
-                { t: "A Queda do Rei", c: "A implantação da República trouxe uma rutura total com o passado monárquico. A Constituição foi elaborada por uma Assembleia eleita para consolidar os ideais de liberdade." },
-                { t: "O Estado Laico", c: "A separação total entre Igreja e Estado. Introduziu o registo civil obrigatório, o ensino laico e a religião passou a ser um assunto privado." },
-                { t: "Supremacia Parlamentar", c: "O Congresso da República (Parlamento) detinha o poder supremo, elegendo e destituindo o Presidente e o Governo, o que gerou instabilidade governativa e a chamada 'ditadura parlamentar'." },
-                { t: "Presidente da República", c: "Eleito pelo Parlamento (não pelo povo), tinha poderes muito limitados. Não tinha direito de veto absoluto nem, inicialmente, o poder de dissolver o Congresso, sendo uma figura decorativa." },
-                { t: "Direitos Sociais", c: "Introduziu novas preocupações com o trabalho: direito à greve (embora regulada), descanso semanal e proteção social, respondendo às crescentes reivindicações do movimento operário." },
-                { t: "Simbologia Republicana", c: "Adoção da bandeira verde e rubra e do hino 'A Portuguesa', rompendo radicalmente com a simbologia azul e branca da monarquia para marcar a nova identidade nacional." },
-                { t: "Família e Educação", c: "Instituiu o divórcio e o registo civil obrigatório. O Estado assumiu o ensino como laico e prioritário, procurando formar cidadãos republicanos livres da influência da Igreja." }
-            ],
-            activity: { t: "A Nova Identidade", c: "Mudamos a bandeira e o hino. Discute: por que razão mudar os símbolos é importante para marcar um novo regime político? Que sentimentos os novos símbolos transmitem?" },
-            quiz: [
-                { q: "Qual a decisão pré-constituinte que levou à Constituição de 1911?", o: ["Abolição da Monarquia", "Guerra Civil", "União Ibérica", "Referendo"], c: 0, f: "A República foi proclamada antes da Constituição, abolindo logo a monarquia." },
-                { q: "Qual a principal influência estrangeira da Constituição de 1911?", o: ["Constituição Brasileira (1891)", "Constituição Alemã", "Carta Italiana", "Constituição Soviética"], c: 0, f: "A Constituição brasileira serviu de modelo, tal como a francesa." },
-                { q: "O sistema de governo instituído em 1911 foi...", o: ["Presidencialista", "Parlamentarista", "Monárquico", "Ditatorial"], c: 1, f: "Foi um parlamentarismo puro, com supremacia do Congresso." },
-                { q: "Quem elegia o Presidente da República?", o: ["Sufrágio Universal", "O Congresso", "Os Militares", "Os Juízes"], c: 1, f: "O Presidente era eleito pelos deputados e senadores, não pelo povo." },
-                { q: "Como era composto o Congresso da República?", o: ["Câmara de Deputados e Senado", "Apenas Câmara de Deputados", "Senado e Conselho Real", "Câmara Corporativa"], c: 0, f: "O Parlamento era bicameral: Deputados e Senado." },
-                { q: "A Constituição de 1911 permitiu o voto às mulheres?", o: ["Sim, a todas", "Não (salvo raras exceções)", "Sim, se casadas", "Sim, se ricas"], c: 1, f: "As mulheres continuaram excluídas do direito de voto." },
-                { q: "Que medida refletiu o pendor laicista da Constituição?", o: ["Ensino religioso obrigatório", "Registo Civil obrigatório", "Apoio financeiro à Igreja", "Criação de feriados religiosos"], c: 1, f: "O Estado assumiu o registo dos cidadãos, retirando esse poder à Igreja." },
-                { q: "O mandato do Presidente da República era de...", o: ["4 anos", "5 anos", "7 anos", "Vitalício"], c: 0, f: "O mandato era curto (4 anos) para evitar concentração de poder." },
-                { q: "Quem podia dissolver o Congresso (Parlamento)?", o: ["O Presidente (livremente)", "Ninguém (inicialmente)", "O Governo", "O Exército"], c: 1, f: "Originalmente, o Presidente não podia dissolver o Parlamento, o que gerava instabilidade." },
-                { q: "Que alteração introduziu Sidónio Pais em 1918?", o: ["Presidencialismo", "Monarquia", "Comunismo", "Teocracia"], c: 0, f: "Sidónio instaurou uma 'República Nova' de cariz presidencialista." },
-                { q: "O Governo era politicamente responsável perante quem?", o: ["O Presidente", "O Congresso", "O Povo", "Os Tribunais"], c: 1, f: "O Congresso podia demitir o governo através de moções de desconfiança." },
-                { q: "Qual a nova bandeira nacional adotada?", o: ["Azul e Branca", "Verde e Rubra", "Amarela e Preta", "Toda Vermelha"], c: 1, f: "As cores do Partido Republicano substituíram as da monarquia." },
-                { q: "O que causou o fim da vigência da Constituição de 1911?", o: ["Revisão de 1930", "Revolta de 28 de Maio de 1926", "Entrada na UE", "Morte do Rei"], c: 1, f: "O golpe militar de 1926 pôs fim à I República e à sua Constituição." },
-                { q: "A laicização incluiu a secularização de...", o: ["Cemitérios", "Quartéis", "Casas privadas", "Roupas"], c: 0, f: "Os cemitérios passaram a ser públicos e não religiosos." },
-                { q: "Qual foi o papel de Sidónio Pais no sistema eleitoral?", o: ["Aboliu o voto", "Introduziu o sufrágio universal (mas durou pouco)", "Deu voto às mulheres", "Proibiu partidos"], c: 1, f: "Tentou alargar a base eleitoral com o sufrágio universal em 1918." },
-                { q: "O Senado (Câmara Alta) era eleito por...", o: ["Nomeação do Rei", "Sufrágio direto", "Municípios e representantes", "Sorteio"], c: 2, f: "Tinha uma representação mais ligada aos distritos e municípios." },
-                { q: "O Presidente da República tinha poder de veto?", o: ["Absoluto", "Não tinha", "Suspensivo (limitado)", "Apenas militar"], c: 1, f: "O Presidente tinha poderes muito limitados face ao Parlamento." },
-                { q: "Qual era a principal crítica ao sistema de 1911?", o: ["Instabilidade governativa", "Excesso de poder do Presidente", "Falta de liberdade", "Monarquismo"], c: 0, f: "A supremacia do Parlamento gerava quedas constantes de governo." },
-                { q: "A Constituição previa o 'Habeas Corpus'?", o: ["Sim", "Não", "Apenas para ricos", "Apenas para políticos"], c: 0, f: "Sim, garantia a proteção contra prisões ilegais." },
-                { q: "Quem foi o primeiro Presidente eleito ao abrigo desta Constituição?", o: ["Manuel de Arriaga", "Teófilo Braga", "Sidónio Pais", "Salazar"], c: 0, f: "Manuel de Arriaga foi o primeiro PR constitucional." }
-            ]
-          },
-          '1933': {
-            id: '1933',
-            label: 'O Interregno Autoritário',
-            title: 'Constituição de 1933',
-            color: 'slate',
-            sub: 'O Estado Novo e a República Corporativa.',
-            infoImage: './info1933.jpg',
-            videoSrc: './video1933.mp4', 
-            guide: [
-                { t: "A Ditadura Nacional", c: "Nascida da revolução militar de 1926 e desenhada por Salazar. Foi aprovada por plebiscito onde a abstenção contou como voto favorável." },
-                { t: "Estado Corporativo", c: "A sociedade era organizada em corporações controladas pelo Estado. Rejeitava a democracia parlamentar e o conflito de opiniões." },
-                { t: "Poder Executivo Forte", c: "Inverteu a lógica de 1911: o Governo (Salazar) não dependia do Parlamento, mas da confiança política do Presidente da República, garantindo uma estabilidade de cariz autoritário." },
-                { t: "Restrição de Liberdades", c: "Embora a Constituição listasse liberdades (expressão, reunião), remetia a sua regulação para 'leis especiais' que, na prática, as anulavam através da censura prévia e da polícia política." },
-                { t: "Câmara Corporativa", c: "Órgão consultivo que funcionava junto ao Parlamento, representando os 'interesses organizados' (famílias, autarquias, sindicatos nacionais), substituindo a lógica partidária." },
-                { t: "Nacionalismo Imperial", c: "Definiu Portugal como uma nação pluricontinental. O Acto Colonial integrou a estrutura constitucional, rejeitando a autonomia das colónias e afirmando a missão civilizadora." },
-                { t: "Assembleia Nacional", c: "O Parlamento reunia apenas 3 meses por ano e tinha poderes limitados de fiscalização, servindo mais como órgão de legitimação do regime do que de decisão efetiva." }
-            ],
-            activity: { t: "A Tesoura da Censura", c: "Imagina escreveres no jornal da escola que queres mudar a direção. No Estado Novo, o 'Lápis Azul' riscava a tua frase. Como te sentirias se não pudesses expressar a tua opinião?" },
-            quiz: [
-                { q: "Qual o evento que marcou a decisão pré-constituinte de 1933?", o: ["25 de Abril", "28 de Maio de 1926", "Implantação da República", "Terramoto de Lisboa"], c: 1, f: "A Ditadura Militar instaurada em 1926 preparou o caminho para o Estado Novo." },
-                { q: "Como foi aprovada a Constituição de 1933?", o: ["Votação no Parlamento", "Plebiscito Nacional", "Decreto Real", "Acordo partidário"], c: 1, f: "Foi submetida a referendo, onde as abstenções contaram como 'Sim'." },
-                { q: "O Estado Novo definia-se como uma República...", o: ["Unitária e Corporativa", "Federal e Socialista", "Monárquica e Liberal", "Parlamentar"], c: 0, f: "O corporativismo era a base estrutural do regime." },
-                { q: "Que documento regulava as colónias com força constitucional?", o: ["Acto Colonial", "Tratado de Tordesilhas", "Carta das Nações", "Lei da Terra"], c: 0, f: "O Acto Colonial integrava a estrutura constitucional do Império." },
-                { q: "Qual era o partido único permitido legalmente?", o: ["Partido Socialista", "União Nacional", "Partido Comunista", "Bloco de Esquerda"], c: 1, f: "A oposição era ilegal; apenas a União Nacional operava." },
-                { q: "Como funcionava a censura (Exame Prévio)?", o: ["Apenas para livros", "Cortava notícias antes da publicação", "Era voluntária", "Não existia"], c: 1, f: "A imprensa era visada pelo 'lápis azul' antes de chegar às bancas." },
-                { q: "Quem era a figura dominante do regime, apesar da estrutura formal?", o: ["O Presidente da República", "O Presidente do Conselho (Salazar)", "O Rei", "O Cardeal"], c: 1, f: "Salazar, como chefe do governo, detinha o poder real." },
-                { q: "O Parlamento era constituído por...", o: ["Assembleia Nacional e Câmara Corporativa", "Senado e Congresso", "Câmara dos Lordes", "Assembleia Popular"], c: 0, f: "Havia uma câmara de deputados e uma câmara consultiva (Corporativa)." },
-                { q: "A revisão constitucional de 1959 alterou a eleição do Presidente para...", o: ["Sufrágio Direto", "Colégio Eleitoral (Indireto)", "Sorteio", "Hereditário"], c: 1, f: "Após a campanha de Humberto Delgado, o regime acabou com o voto direto para PR." },
-                { q: "Os direitos e liberdades previstos na Constituição eram...", o: ["Absolutos", "Limitados por 'leis especiais'", "Inexistentes", "Iguais aos de hoje"], c: 1, f: "As leis especiais esvaziavam na prática os direitos consagrados." },
-                { q: "A Constituição de 1933 inspirou-se em parte no modelo...", o: ["Soviético", "Fascista Italiano", "Americano", "Britânico"], c: 1, f: "O corporativismo italiano foi uma das influências, embora adaptado." },
-                { q: "O que aconteceu ao direito à greve?", o: ["Foi garantido", "Foi proibido", "Era obrigatório", "Apenas ao fim de semana"], c: 1, f: "As greves eram proibidas e consideradas crimes contra a economia." },
-                { q: "Quem elaborou o projeto da Constituição?", o: ["Uma Assembleia Eleita", "Um grupo liderado por Salazar", "A ONU", "O Povo"], c: 1, f: "Foi um projeto elaborado pelo governo ditatorial, não por deputados." },
-                { q: "Qual era o papel da Câmara Corporativa?", o: ["Fazer leis", "Julgar crimes", "Consultivo (dar pareceres)", "Comandar o exército"], c: 2, f: "Representava os grupos profissionais e dava pareceres técnicos." },
-                { q: "O 'Plataformas de Acordo Constitucional' refere-se a...", o: ["1933", "1976", "1822", "1911"], c: 1, f: "Esta é uma rasteira! Plataformas de Acordo é do processo de 1976. Em 1933 foi imposição." },
-                { q: "A Constituição de 1933 vigorou até...", o: ["1945", "1974", "1986", "2000"], c: 1, f: "Caiu com a Revolução dos Cravos em 25 de Abril de 1974." },
-                { q: "O regime rejeitava o...", o: ["Nacionalismo", "Liberalismo político e partidário", "Catolicismo", "Colonialismo"], c: 1, f: "Era um regime antiparlamentar e antiliberal." },
-                { q: "A economia era definida como...", o: ["Comunista", "Corporativa e condicionada", "Livre mercado total", "Feudal"], c: 1, f: "O Estado controlava e condicionava a atividade económica." },
-                { q: "Qual o estatuto da Constituição logo após o 25 de Abril?", o: ["Revogada/Substituída por leis constitucionais", "Mantida integralmente", "Traduzida para inglês", "Vendida"], c: 0, f: "Foi desmantelada e substituída temporariamente até 1976." },
-                { q: "O que eram as 'eleições' durante o Estado Novo?", o: ["Livres e justas", "Controladas e não competitivas", "Sempre ganhas pela oposição", "Digitais"], c: 1, f: "Eram atos de legitimação do regime sem verdadeira concorrência." }
-            ]
-          },
-          '1976': {
-            id: '1976',
-            label: 'A Democracia de Abril',
-            title: 'Constituição de 1976',
-            color: 'emerald',
-            sub: 'O regresso à liberdade e o Sufrágio Universal.',
-            infoImage: './info1976.jpg',
-            videoSrc: './video1976.mp4',
-            guide: [
-                { t: "A Revolução dos Cravos", c: "A 25 de Abril de 1974, os militares puseram fim a 48 anos de ditadura. O objetivo era: descolonizar, democratizar e desenvolver." },
-                { t: "O Sufrágio Universal", c: "Pela primeira vez em décadas, todos os portugueses (homens e mulheres) votaram para a Constituinte. O voto tornou-se a voz real do povo." },
-                { t: "Sistema Semipresidencialista", c: "Sistema misto de equilíbrio: o Presidente é eleito diretamente e tem poderes reais (veto, dissolução), mas o Governo responde perante o Parlamento, evitando ditaduras." },
-                { t: "Estado Social", c: "Compromisso do Estado em garantir direitos sociais universais: Serviço Nacional de Saúde, Segurança Social, Educação Pública e Habitação, protegendo os mais vulneráveis." },
-                { t: "Poder Local Democrático", c: "Criação das Autarquias Locais (Câmaras e Assembleias Municipais) eleitas, descentralizando o poder e aproximando a decisão das populações, rompendo com o centralismo anterior." },
-                { t: "Autonomias Regionais", c: "Reconhecimento das especificidades geográficas e históricas dos arquipélagos, criando as Regiões Autónomas dos Açores e Madeira com governos e parlamentos próprios." },
-                { t: "Tribunal Constitucional", c: "Criação de um 'guardião' (em 1982) para fiscalizar as leis, garantindo que nenhuma norma viola os princípios fundamentais e os direitos dos cidadãos consagrados na Constituição." }
-            ],
-            activity: { t: "A Minha Primeira Urna", c: "Simula uma eleição na turma para uma decisão simples. Usa voto secreto. Discute por que razão o voto livre é o pilar da nossa liberdade atual." },
-            quiz: [
-                { q: "Qual o evento histórico 'pré-constituinte' da Constituição de 1976?", o: ["25 de Abril de 1974", "Entrada na CEE", "Guerra Colonial", "Morte de Salazar"], c: 0, f: "A Revolução dos Cravos abriu caminho à democracia." },
-                { q: "Quem elaborou a Constituição de 1976?", o: ["O MFA sozinho", "Uma Assembleia Constituinte eleita", "O Presidente Spínola", "A União Europeia"], c: 1, f: "Foi redigida por deputados eleitos livremente pelo povo." },
-                { q: "O texto original de 1976 apontava para...", o: ["Uma monarquia", "A transição para o socialismo", "O fascismo", "O feudalismo"], c: 1, f: "O texto original tinha uma forte carga ideológica socialista." },
-                { q: "Que órgão militar foi extinto na revisão de 1982?", o: ["Conselho da Revolução", "Exército", "GNR", "Polícia Judiciária"], c: 0, f: "A extinção do Conselho da Revolução normalizou a democracia civil." },
-                { q: "A Constituição de 1976 consagrou pela primeira vez...", o: ["O voto censitário", "O sufrágio universal pleno", "A escravatura", "A pena de morte"], c: 1, f: "Todos os cidadãos maiores de idade ganharam direito de voto." },
-                { q: "Qual o sistema de governo consagrado?", o: ["Presidencialista", "Semipresidencialista", "Parlamentar puro", "Monárquico"], c: 1, f: "O poder é partilhado entre Presidente (eleito) e Parlamento/Governo." },
-                { q: "Que documento de direitos humanos tem valor constitucional?", o: ["Declaração Universal dos Direitos do Homem", "Magna Carta", "Código de Hamurabi", "Bula Papal"], c: 0, f: "A DUDH é referenciada diretamente na Constituição." },
-                { q: "A revisão de 1989 foi importante para permitir...", o: ["A prisão perpétua", "As reprivatizações", "O regresso do Rei", "A censura"], c: 1, f: "Permitou reverter as nacionalizações do período revolucionário." },
-                { q: "O sistema eleitoral para a Assembleia da República é...", o: ["Maioritário (vence quem tem mais votos)", "Proporcional (Método de Hondt)", "Sorteio", "Uninominal"], c: 1, f: "Garante representação aos partidos segundo a sua percentagem de votos." },
-                { q: "Qual a função do Tribunal Constitucional (criado em 1982)?", o: ["Julgar roubos", "Fiscalizar se as leis cumprem a Constituição", "Comandar a polícia", "Fazer leis"], c: 1, f: "É o guardião da Constituição." },
-                { q: "A Constituição define Portugal como um Estado de...", o: ["Direito Democrático", "Novo", "Sítio", "Guerra"], c: 0, f: "O Estado de Direito garante que todos, incluindo o Estado, obedecem à lei." },
-                { q: "O que são 'limites materiais' de revisão (cláusulas pétreas)?", o: ["Pedras da calçada", "Coisas que não se podem mudar na Constituição", "O muro de Berlim", "Materiais de construção"], c: 1, f: "São princípios intocáveis, como a forma republicana e os direitos dos trabalhadores." },
-                { q: "Qual era o papel do 'Plataformas de Acordo Constitucional'?", o: ["Acordo entre MFA e Partidos", "Plano de comboios", "Tratado com Espanha", "Lei da Pesca"], c: 0, f: "Foi um pacto que impôs certas regras militares à Assembleia Constituinte." },
-                { q: "A saúde é um direito garantido através de...", o: ["Seguros privados", "Serviço Nacional de Saúde (SNS)", "Caridade", "Sorte"], c: 1, f: "O SNS universal e tendencialmente gratuito é uma conquista de 1976." },
-                { q: "Quantas revisões teve a Constituição de 1976 até hoje?", o: ["Nenhuma", "Sete", "Cinquenta", "Duas"], c: 1, f: "O texto foi ajustado 7 vezes para se adaptar aos tempos e à UE." },
-                { q: "O que aconteceu à PIDE após a revolução?", o: ["Foi extinta", "Mudou de nome", "Continuou igual", "Foi elogiada"], c: 0, f: "A polícia política da ditadura foi desmantelada." },
-                { q: "As regiões autónomas (Açores e Madeira) têm...", o: ["Independência total", "Estatutos Político-Administrativos próprios", "Reis próprios", "Moeda própria"], c: 1, f: "A Constituição garante autonomia política e administrativa às ilhas." },
-                { q: "O Presidente da República é eleito por...", o: ["Voto direto dos cidadãos", "Parlamento", "Governo", "Sorteio"], c: 0, f: "É uma eleição direta, exigindo maioria absoluta." },
-                { q: "Qual o limite de mandatos consecutivos do Presidente?", o: ["Um", "Dois", "Três", "Sem limite"], c: 1, f: "Pode cumprir no máximo dois mandatos seguidos (10 anos)." },
-                { q: "A Constituição proíbe explicitamente partidos...", o: ["De esquerda", "De direita", "Fascistas ou racistas", "Ecológicos"], c: 2, f: "Organizações que perfilhem a ideologia fascista não são permitidas." }
-            ]
-          }
+            '1822': {
+                id: '1822',
+                label: 'O Nascimento Liberal',
+                title: 'Constituição de 1822',
+                color: 'indigo',
+                sub: 'Do absolutismo à soberania da Nação.',
+                infoImage: './info1822.jpg',
+                videoSrc: './video1822.mp4',
+                guide: [
+                    { t: "Portugal em Crise", c: "No início do século XIX, Portugal estava à beira do colapso: a corte governava do Brasil, as Invasões Francesas deixaram destruição, o país estava sob domínio britânico, a economia em ruína e havia um sentimento de humilhação nacional - 'uma colónia de uma colónia'." },
+                    { t: "A Revolução de 1820", c: "Em 24 de agosto de 1820, no Porto, eclodiu a Revolução Liberal. O lema era claro: 'A falta de uma constituição é a origem de todos os nossos males'. Objetivos: convocar Cortes e criar uma Constituição para acabar com o absolutismo." },
+                    { t: "Manuel Fernandes Tomás", c: "O 'Pai da Pátria', figura central da revolução. Defendeu que 'ninguém pode tirar proveito da revolução' e proibiu a remuneração dos cargos políticos. Dedicou-se inteiramente às Cortes sem outra fonte de rendimento e acabou por morrer de fome." },
+                    { t: "Constituição de 1822: Soberania da Nação", c: "Aprovada em 23 de setembro de 1822, foi a primeira e mais progressista Constituição portuguesa. A soberania deixou de emanar de Deus para o Rei e passou a residir 'essencialmente' na Nação, exercida através de representantes eleitos." },
+                    { t: "Supremacia das Cortes (1822)", c: "Parlamento unicameral com poder legislativo supremo, chamado 'Soberano Congresso'. O Rei era chefe do executivo mas devia 'executar rigorosamente as ordens do parlamento'. Tinha apenas veto suspensivo e não podia dissolver nem convocar as Cortes." },
+                    { t: "Direitos e Igualdade (1822)", c: "Consagrou direitos individuais: liberdade, segurança e propriedade. Aboliu privilégios da nobreza e do clero, estabelecendo igualdade perante a lei. Um assalto direto à estrutura social tripartida do Antigo Regime." },
+                    { t: "A Reação Absolutista", c: "A Constituição era demasiado radical e durou pouco. Em 1823, na Vila-Francada, os militares exigiram a restituição dos direitos do Rei. D. João VI aderiu à revolta e suspendeu a Constituição, prometendo substituí-la (o que nunca fez)." },
+                    { t: "A Carta de 1826: Compromisso Real", c: "Com a morte de D. João VI, D. Pedro (Imperador do Brasil) abdicou do trono português em favor da filha D. Maria da Glória, mas outorgou uma Carta Constitucional - concedida por sua vontade, não votada pela Nação." },
+                    { t: "O Poder Moderador", c: "Inovação conceptual da Carta de 1826: um quarto poder exclusivo do Rei, funcionando como 'árbitro' supremo. Permitia nomear e demitir ministros e dissolver a Câmara dos Deputados. Era a 'chave do poder real'." },
+                    { t: "Parlamento Bicameral (1826)", c: "As Cortes dividiram-se em duas câmaras: Câmara dos Deputados (eleita por sufrágio censitário) e Câmara dos Pares (nobreza e clero nomeados pelo Rei de forma vitalícia e hereditária). Modelo mais conservador." },
+                    { t: "Guerra Civil (1828-1834)", c: "D. Miguel quebrou a promessa de respeitar a Carta e foi aclamado rei absoluto. O país mergulhou numa Guerra Civil entre Liberais (defensores da Carta e de D. Maria) e Absolutistas (apoiantes de D. Miguel)." },
+                    { t: "Constituição de 1838: O Compromisso", c: "Após a Revolução de Setembro de 1836, criou-se um texto que tentava conciliar o radicalismo de 1822 com o moderantismo de 1826. Foi um esforço sincero de pacificação entre as duas correntes liberais." },
+                    { t: "Características de 1838", c: "Aboliu o Poder Moderador, manteve o parlamento bicameral mas tornou o Senado eletivo (democratizando a câmara alta), e devolveu ao Rei o veto absoluto sobre as leis como garantia de moderação." },
+                    { t: "O Fracasso Final", c: "Apesar do esforço de conciliação, a instabilidade continuou. Em 1842, um golpe de Costa Cabral restaurou a Carta de 1826, que permaneceria como lei fundamental de Portugal até à República em 1910." },
+                    { t: "Legado de 1822", c: "Apesar da vigência curtíssima, a Constituição de 1822 foi o marco fundamental: quebrou séculos de absolutismo e introduziu de forma irreversível no debate nacional o vocabulário da política moderna - soberania da Nação, separação de poderes, direitos individuais." }
+                ],
+                activity: { t: "O Puzzle dos Poderes", c: "Imagina que tens 3 caixas: Legislativo, Executivo e Judicial. No Absolutismo, o Rei tinha as 3. Em 1822, as peças separaram-se para garantir a liberdade. Que tarefas atribuirias às Cortes?" },
+                quiz: [
+                    { q: "Qual a fonte estrangeira mais imediata e influente para a Constituição de 1822?", o: ["Constituição dos EUA (1787)", "Constituição de Cádis (1812)", "Carta Francesa (1814)", "Bill of Rights (1689)"], c: 1, f: "A Constituição espanhola de Cádis foi a grande inspiradora do vintismo." },
+                    { q: "A decisão pré-constituinte de 1822 insurgiu-se diretamente contra:", o: ["A ocupação britânica", "A monarquia espanhola", "A revolução francesa", "O clero"], c: 0, f: "A Revolução Liberal de 1820 foi, em parte, uma reação ao domínio inglês em Portugal." },
+                    { q: "Que conceito político fundamental substituiu a legitimidade paternalista do monarca?", o: ["Soberania Nacional", "Direito Divino", "Absolutismo", "Corporativismo"], c: 0, f: "O poder passou a residir na Nação e não na figura do Rei." },
+                    { q: "Como se caracterizava o Parlamento (Cortes) em 1822?", o: ["Bicameral", "Unicameral", "Tricameral", "Consultivo"], c: 1, f: "Era constituído apenas por uma Câmara de Deputados eleita." },
+                    { q: "Qual era o poder do Rei sobre as leis aprovadas pelas Cortes?", o: ["Veto absoluto", "Veto suspensivo", "Nenhum poder", "Poder de emenda"], c: 1, f: "O Rei podia adiar (suspender) a lei, mas se as Cortes insistissem, tinha de promulgar." },
+                    { q: "Quem estava explicitamente excluído do direito de voto em 1822?", o: ["Comerciantes", "Proprietários", "Mulheres e analfabetos", "Militares"], c: 2, f: "O sufrágio não era totalmente universal; mulheres e servos/analfabetos foram excluídos." },
+                    { q: "O que eram as 'Bases da Constituição' de 1821?", o: ["Um rascunho secreto", "Um documento provisório", "Um tratado com Espanha", "Uma lei agrária"], c: 1, f: "Foi um texto temporário para vigorar enquanto a Constituição completa era redigida." },
+                    { q: "Qual o evento que levará à suspensão da Constituição em 1823?", o: ["A Vilafrancada", "A Maria da Fonte", "O 5 de Outubro", "A Implantação da República"], c: 0, f: "A Vilafrancada marcou o golpe absolutista que suspendeu o texto liberal." },
+                    { q: "Segundo a Constituição, quem detinha exclusivamente o poder judicial?", o: ["O Rei", "As Cortes", "Os Juízes", "O Governo"], c: 2, f: "Estabeleceu-se a separação de poderes, com tribunais independentes." },
+                    { q: "Qual a posição da Constituição de 1822 sobre a religião?", o: ["Liberdade total", "Catolicismo como única religião da Nação", "Ateísmo de State", "Protestantismo"], c: 1, f: "Embora liberal, manteve o Catolicismo como religião oficial e única para os nacionais." },
+                    { q: "Os deputados às Cortes Constituintes eram maioritariamente...", o: ["Operários", "Juristas e Magistrados", "Militares de baixa patente", "Agricultores"], c: 1, f: "A burguesia letrada dominou a elaboração do texto." },
+                    { q: "A Constituição de 1822 inspirou-se na tradição do...", o: ["Direito Natural", "Direito Canónico", "Direito Feudal", "Direito Soviético"], c: 0, f: "Os direitos naturais do homem foram a base filosófica." },
+                    { q: "O sufrágio para eleição dos deputados era...", o: ["Universal e Direto", "Direto", "Indireto (em graus)", "Censitário muito restrito"], c: 1, f: "Ao contrário de Cádis (indireto), Portugal optou pelo sufrágio direto." },
+                    { q: "O que aconteceu aos forais e privilégios feudais?", o: ["Foram abolidos", "Foram reforçados", "Foram mantidos", "Transformados em imposto"], c: 0, f: "O liberalismo visava destruir a ordem do Antigo Regime." },
+                    { q: "A soberania em 1822 residia em quem?", o: ["Rei", "Deus", "Nação", "Exército"], c: 2, f: "A Nação passou a ser a fonte do poder." },
+                    { q: "Qual foi o argumento de D. João VI para anular a Constituição em 1823?", o: ["Era demasiado longa", "Incompatível com hábitos do povo", "Cópia da inglesa", "Apoiada por Espanha"], c: 1, f: "Alegou que a Constituição não servia os costumes tradicionais portugueses." },
+                    { q: "As Cortes de 1822 reuniam-se...", o: ["Apenas quando o Rei chamava", "Automaticamente (direito próprio)", "A cada 4 anos", "No Porto"], c: 1, f: "As Cortes tinham soberania para reunir sem depender da vontade real." },
+                    { q: "A Constituição de 1822 garantiu a liberdade de...", o: ["Imprensa", "Culto público (para outras religiões)", "Escravatura", "Divórcio"], c: 0, f: "A liberdade de imprensa foi uma das grandes conquistas liberais." },
+                    { q: "Quem organizou a Revolução Liberal do Porto?", o: ["O Sinédrio", "A Maçonaria Inglesa", "O Papa", "Napoleão"], c: 0, f: "Foi o Sinédrio, liderado por Manuel Fernandes Tomás." },
+                    { q: "Quantas câmaras tinha o Parlamento?", o: ["Uma", "Duas", "Três", "Quatro"], c: 0, f: "O unicameralismo foi uma marca radical face ao bicameralismo conservador." }
+                ]
+            },
+            '1911': {
+                id: '1911',
+                label: 'A Rutura Republicana',
+                title: 'Constituição de 1911',
+                color: 'purple',
+                sub: 'O fim da Monarquia e o Laicismo.',
+                infoImage: './info1911.jpg',
+                videoSrc: './video1911.mp4',
+                guide: [
+                    { t: "Nascimento Revolucionário", c: "Aprovada em 21 de agosto de 1911, três meses após a Revolução de 5 de Outubro de 1910. Inspirada na Constituição de 1822, na Constituição Brasileira de 1891 e no programa do Partido Republicano Português, materializava os ideais revolucionários de modernidade e progresso." },
+                    { t: "Estado Laico Radical", c: "Separação total entre Igreja e Estado através da liberdade de consciência, igualdade de cultos, laicização do ensino, secularização dos cemitérios, inadmissibilidade de congregações religiosas e obrigatoriedade do registo civil. A religião passou a ser assunto privado." },
+                    { t: "Direitos e Exclusões", c: "Consagrou liberdades liberais (expressão, propriedade, igualdade civil) e direitos inovadores (igualdade social, assistência pública, fim de privilégios nobiliárquicos). Porém, excluiu do sufrágio mulheres, analfabetos e militares, mantendo profundas desigualdades." },
+                    { t: "Supremacia Parlamentar Absoluta", c: "O Congresso da República (bicameral: Câmara dos Deputados e Senado) era o 'órgão superior da soberania'. Elegia e destituía o Presidente, controlava totalmente o Governo através de moções de confiança, gerando instabilidade governativa crónica." },
+                    { t: "Presidente Decorativo", c: "Eleito pelo Congresso por 4 anos, não renovável no quadriénio seguinte. Tinha papel 'meramente honorífico e representativo', sem direito de veto sobre leis nem poder de dissolver o Congresso inicialmente. Era figura simbólica sem poder efetivo." },
+                    { t: "Governo Refém do Parlamento", c: "Ministros nomeados pelo Presidente, mas politicamente responsáveis apenas perante o Congresso. Intrinsecamente frágil, sujeito a instabilidade permanente dependente das flutuações das maiorias parlamentares, o que impossibilitava políticas de longo prazo." },
+                    { t: "Ruptura Sidonista de 1918", c: "O golpe de Sidónio Pais (1917) impôs orientação presidencialista e antiparlamentar, criou Senado corporativo e introduziu sufrágio universal masculino direto para eleger o Presidente. Após seu assassinato, a Constituição de 1911 foi reposta." },
+                    { t: "Tentativas de Reforma", c: "Entre 1919-1921, quatro revisões tentaram corrigir falhas: concederam ao Presidente direito de dissolução do Congresso (condicionado), remuneraram parlamentares, descentralizaram administração ultramarina e delimitaram poderes durante períodos de dissolução." },
+                    { t: "Instabilidade Crónica", c: "A supremacia parlamentar extrema gerou paralisia governativa. O Congresso imiscuía-se em todos os atos governativos, transformando a governação numa sucessão de crises. Governos fracos e efémeros eram incapazes de implementar políticas duradouras." },
+                    { t: "Colapso Final", c: "O golpe militar de 28 de Maio de 1926 encontrou o regime fragilizado e desacreditado. A Constituição foi formalmente abolida a 9 de junho de 1926 com a dissolução do Congresso, sendo substituída apenas em 1933 pela Constituição do Estado Novo." }
+                ],
+                activity: { t: "A Nova Identidade", c: "Mudamos a bandeira e o hino. Discute: por que razão mudar os símbolos é importante para marcar um novo regime político? Que sentimentos os novos símbolos transmitem?" },
+                quiz: [
+                    { q: "Qual a decisão pré-constituinte que levou à Constituição de 1911?", o: ["Abolição da Monarquia", "Guerra Civil", "União Ibérica", "Referendo"], c: 0, f: "A República foi proclamada antes da Constituição, abolindo logo a monarquia." },
+                    { q: "Qual a principal influência estrangeira da Constituição de 1911?", o: ["Constituição Brasileira (1891)", "Constituição Alemã", "Carta Italiana", "Constituição Soviética"], c: 0, f: "A Constituição brasileira serviu de modelo, tal como a francesa." },
+                    { q: "O sistema de governo instituído em 1911 foi...", o: ["Presidencialista", "Parlamentarista", "Monárquico", "Ditatorial"], c: 1, f: "Foi um parlamentarismo puro, com supremacia do Congresso." },
+                    { q: "Quem elegia o Presidente da República?", o: ["Sufrágio Universal", "O Congresso", "Os Militares", "Os Juízes"], c: 1, f: "O Presidente era eleito pelos deputados e senadores, não pelo povo." },
+                    { q: "Como era composto o Congresso da República?", o: ["Câmara de Deputados e Senado", "Apenas Câmara de Deputados", "Senado e Conselho Real", "Câmara Corporativa"], c: 0, f: "O Parlamento era bicameral: Deputados e Senado." },
+                    { q: "A Constituição de 1911 permitiu o voto às mulheres?", o: ["Sim, a todas", "Não (salvo raras exceções)", "Sim, se casadas", "Sim, se ricas"], c: 1, f: "As mulheres continuaram excluídas do direito de voto." },
+                    { q: "Que medida refletiu o pendor laicista da Constituição?", o: ["Ensino religioso obrigatório", "Registo Civil obrigatório", "Apoio financeiro à Igreja", "Criação de feriados religiosos"], c: 1, f: "O Estado assumiu o registo dos cidadãos, retirando esse poder à Igreja." },
+                    { q: "O mandato do Presidente da República era de...", o: ["4 anos", "5 anos", "7 anos", "Vitalício"], c: 0, f: "O mandato era curto (4 anos) para evitar concentração de poder." },
+                    { q: "Quem podia dissolver o Congresso (Parlamento)?", o: ["O Presidente (livremente)", "Ninguém (inicialmente)", "O Governo", "O Exército"], c: 1, f: "Originalmente, o Presidente não podia dissolver o Parlamento, o que gerava instabilidade." },
+                    { q: "Que alteração introduziu Sidónio Pais em 1918?", o: ["Presidencialismo", "Monarquia", "Comunismo", "Teocracia"], c: 0, f: "Sidónio instaurou uma 'República Nova' de cariz presidencialista." },
+                    { q: "O Governo era politicamente responsável perante quem?", o: ["O Presidente", "O Congresso", "O Povo", "Os Tribunais"], c: 1, f: "O Congresso podia demitir o governo através de moções de desconfiança." },
+                    { q: "Qual a nova bandeira nacional adotada?", o: ["Azul e Branca", "Verde e Rubra", "Amarela e Preta", "Toda Vermelha"], c: 1, f: "As cores do Partido Republicano substituíram as da monarquia." },
+                    { q: "O que causou o fim da vigência da Constituição de 1911?", o: ["Revisão de 1930", "Revolta de 28 de Maio de 1926", "Entrada na UE", "Morte do Rei"], c: 1, f: "O golpe militar de 1926 pôs fim à I República e à sua Constituição." },
+                    { q: "A laicização incluiu a secularização de...", o: ["Cemitérios", "Quartéis", "Casas privadas", "Roupas"], c: 0, f: "Os cemitérios passaram a ser públicos e não religiosos." },
+                    { q: "Qual foi o papel de Sidónio Pais no sistema eleitoral?", o: ["Aboliu o voto", "Introduziu o sufrágio universal (mas durou pouco)", "Deu voto às mulheres", "Proibiu partidos"], c: 1, f: "Tentou alargar a base eleitoral com o sufrágio universal em 1918." },
+                    { q: "O Senado (Câmara Alta) era eleito por...", o: ["Nomeação do Rei", "Sufrágio direto", "Municípios e representantes", "Sorteio"], c: 2, f: "Tinha uma representação mais ligada aos distritos e municípios." },
+                    { q: "O Presidente da República tinha poder de veto?", o: ["Absoluto", "Não tinha", "Suspensivo (limitado)", "Apenas militar"], c: 1, f: "O Presidente tinha poderes muito limitados face ao Parlamento." },
+                    { q: "Qual era a principal crítica ao sistema de 1911?", o: ["Instabilidade governativa", "Excesso de poder do Presidente", "Falta de liberdade", "Monarquismo"], c: 0, f: "A supremacia do Parlamento gerava quedas constantes de governo." },
+                    { q: "A Constituição previa o 'Habeas Corpus'?", o: ["Sim", "Não", "Apenas para ricos", "Apenas para políticos"], c: 0, f: "Sim, garantia a proteção contra prisões ilegais." },
+                    { q: "Quem foi o primeiro Presidente eleito ao abrigo desta Constituição?", o: ["Manuel de Arriaga", "Teófilo Braga", "Sidónio Pais", "Salazar"], c: 0, f: "Manuel de Arriaga foi o primeiro PR constitucional." }
+                ]
+            },
+            '1933': {
+                id: '1933',
+                label: 'O Interregno Autoritário',
+                title: 'Constituição de 1933',
+                color: 'slate',
+                sub: 'O Estado Novo e a República Corporativa.',
+                infoImage: './info1933.jpg',
+                videoSrc: './video1933.mp4',
+                guide: [
+                    { t: "O Pilar Jurídico do Estado Novo", c: "A Constituição de 1933 foi o documento fundador do Estado Novo, aprovada por plebiscito e inspirada nos ideais corporativistas de Salazar. Vigorou entre 1933 e 1976, estruturando um Estado forte e centralizado." },
+                    { t: "Presidente da República", c: "Chefe de Estado com poder de nomear e demitir o Governo e dissolver a Assembleia Nacional. Após 1959, passou a ser eleito por colégio eleitoral restrito. Na prática, estava subordinado ao Presidente do Conselho." },
+                    { t: "O Governo: Centro do Poder", c: "Liderado pelo Presidente do Conselho (Salazar), detinha o poder efetivo. Podia criar decretos-lei sem aprovação prévia da Assembleia, legislando de forma autónoma em casos de 'urgência e necessidade pública'." },
+                    { t: "Assembleia Nacional", c: "Composta por 90 deputados eleitos por sufrágio direto. Tinha funções legislativas e de fiscalização, mas o seu poder era limitado pela supremacia do executivo e pelo facto de as suas leis dependerem de promulgação presidencial." },
+                    { t: "Câmara Corporativa", c: "Órgão consultivo, não eleito por sufrágio direto, mas composto por representantes de interesses sociais e económicos. Emitia pareceres sobre propostas de lei, materializando a ideologia corporativista do regime." },
+                    { t: "Liberdades Condicionadas", c: "A Constituição consagrava direitos como liberdade de expressão, reunião e inviolabilidade do domicílio, mas remetia a sua regulação para 'leis especiais' que, na prática, os anulavam através da Censura e da polícia política (PVDE-PIDE)." },
+                    { t: "Prisão Preventiva", c: "O direito de não ser preso sem culpa formada tinha uma exceção crucial: em crimes contra a segurança do Estado, permitia-se a prisão preventiva, abrindo porta à atuação arbitrária da polícia política." },
+                    { t: "Deveres do Cidadão", c: "A Constituição impunha deveres de cooperação com o Estado, incluindo pagamento de impostos e prestação de serviços. O serviço militar era geral e obrigatório, sublinhando a primazia dos interesses coletivos sobre a esfera individual." },
+                    { t: "Supremacia do Executivo", c: "A arquitetura do poder centralizava-se no executivo. O Presidente do Conselho (Salazar) detinha o controlo efetivo através dos decretos-lei e da superintendência da administração pública, dominando a vida política nacional." }
+                ],
+                activity: { t: "A Tesoura da Censura", c: "Imagina escreveres no jornal da escola que queres mudar a direção. No Estado Novo, o 'Lápis Azul' riscava a tua frase. Como te sentirias se não pudesses expressar a tua opinião?" },
+                quiz: [
+                    { q: "Qual o evento que marcou a decisão pré-constituinte de 1933?", o: ["25 de Abril", "28 de Maio de 1926", "Implantação da República", "Terramoto de Lisboa"], c: 1, f: "A Ditadura Militar instaurada em 1926 preparou o caminho para o Estado Novo." },
+                    { q: "Como foi aprovada a Constituição de 1933?", o: ["Votação no Parlamento", "Plebiscito Nacional", "Decreto Real", "Acordo partidário"], c: 1, f: "Foi submetida a referendo, onde as abstenções contaram como 'Sim'." },
+                    { q: "O Estado Novo definia-se como uma República...", o: ["Unitária e Corporativa", "Federal e Socialista", "Monárquica e Liberal", "Parlamentar"], c: 0, f: "O corporativismo era a base estrutural do regime." },
+                    { q: "Que documento regulava as colónias com força constitucional?", o: ["Acto Colonial", "Tratado de Tordesilhas", "Carta das Nações", "Lei da Terra"], c: 0, f: "O Acto Colonial integrava a estrutura constitucional do Império." },
+                    { q: "Qual era o partido único permitido legalmente?", o: ["Partido Socialista", "União Nacional", "Partido Comunista", "Bloco de Esquerda"], c: 1, f: "A oposição era ilegal; apenas a União Nacional operava." },
+                    { q: "Como funcionava a censura (Exame Prévio)?", o: ["Apenas para livros", "Cortava notícias antes da publicação", "Era voluntária", "Não existia"], c: 1, f: "A imprensa era visada pelo 'lápis azul' antes de chegar às bancas." },
+                    { q: "Quem era a figura dominante do regime, apesar da estrutura formal?", o: ["O Presidente da República", "O Presidente do Conselho (Salazar)", "O Rei", "O Cardeal"], c: 1, f: "Salazar, como chefe do governo, detinha o poder real." },
+                    { q: "O Parlamento era constituído por...", o: ["Assembleia Nacional e Câmara Corporativa", "Senado e Congresso", "Câmara dos Lordes", "Assembleia Popular"], c: 0, f: "Havia uma câmara de deputados e uma câmara consultiva (Corporativa)." },
+                    { q: "A revisão constitucional de 1959 alterou a eleição do Presidente para...", o: ["Sufrágio Direto", "Colégio Eleitoral (Indireto)", "Sorteio", "Hereditário"], c: 1, f: "Após a campanha de Humberto Delgado, o regime acabou com o voto direto para PR." },
+                    { q: "Os direitos e liberdades previstos na Constituição eram...", o: ["Absolutos", "Limitados por 'leis especiais'", "Inexistentes", "Iguais aos de hoje"], c: 1, f: "As leis especiais esvaziavam na prática os direitos consagrados." },
+                    { q: "A Constituição de 1933 inspirou-se em parte no modelo...", o: ["Soviético", "Fascista Italiano", "Americano", "Britânico"], c: 1, f: "O corporativismo italiano foi uma das influências, embora adaptado." },
+                    { q: "O que aconteceu ao direito à greve?", o: ["Foi garantido", "Foi proibido", "Era obrigatório", "Apenas ao fim de semana"], c: 1, f: "As greves eram proibidas e consideradas crimes contra a economia." },
+                    { q: "Quem elaborou o projeto da Constituição?", o: ["Uma Assembleia Eleita", "Um grupo liderado por Salazar", "A ONU", "O Povo"], c: 1, f: "Foi um projeto elaborado pelo governo ditatorial, não por deputados." },
+                    { q: "Qual era o papel da Câmara Corporativa?", o: ["Fazer leis", "Julgar crimes", "Consultivo (dar pareceres)", "Comandar o exército"], c: 2, f: "Representava os grupos profissionais e dava pareceres técnicos." },
+                    { q: "O 'Plataformas de Acordo Constitucional' refere-se a...", o: ["1933", "1976", "1822", "1911"], c: 1, f: "Esta é uma rasteira! Plataformas de Acordo é do processo de 1976. Em 1933 foi imposição." },
+                    { q: "A Constituição de 1933 vigorou até...", o: ["1945", "1974", "1986", "2000"], c: 1, f: "Caiu com a Revolução dos Cravos em 25 de Abril de 1974." },
+                    { q: "O regime rejeitava o...", o: ["Nacionalismo", "Liberalismo político e partidário", "Catolicismo", "Colonialismo"], c: 1, f: "Era um regime antiparlamentar e antiliberal." },
+                    { q: "A economia era definida como...", o: ["Comunista", "Corporativa e condicionada", "Livre mercado total", "Feudal"], c: 1, f: "O State controlava e condicionava a atividade económica." },
+                    { q: "Qual o estatuto da Constituição logo após o 25 de Abril?", o: ["Revogada/Substituída por leis constitucionais", "Mantida integralmente", "Traduzida para inglês", "Vendida"], c: 0, f: "Foi desmantelada e substituída temporariamente até 1976." },
+                    { q: "O que eram as 'eleições' durante o Estado Novo?", o: ["Livres e justas", "Controladas e não competitivas", "Sempre ganhas pela oposição", "Digitais"], c: 1, f: "Eram atos de legitimação do regime sem verdadeira concorrência." }
+                ]
+            },
+            '1976': {
+                id: '1976',
+                label: 'A Democracia de Abril',
+                title: 'Constituição de 1976',
+                color: 'emerald',
+                sub: 'O regresso à liberdade e o Sufrágio Universal.',
+                infoImage: './info1976.jpg',
+                videoSrc: './video1976.mp4',
+                guide: [
+                    { t: "Do Fim da Ditadura à Democracia", c: "A 25 de Abril de 1974, o MFA derrubou o Estado Novo que governava há quase 50 anos. O objetivo era libertar Portugal da ditadura, opressão e colonialismo, abrindo caminho para uma nova Constituição democrática." },
+                    { t: "Eleições Fundadoras de 1975", c: "Exatamente um ano após a revolução, 91,2% dos portugueses votaram para eleger a Assembleia Constituinte. Os 250 deputados tinham uma única missão: elaborar a nova Constituição que substituiria a de 1933." },
+                    { t: "Resultados Surpreendentes", c: "O PS venceu as eleições, enquanto o PCP e extrema-esquerda obtiveram menos de 20% dos votos. O país revelou-se plural e moderado, contrariando as expectativas da ala militar radical." },
+                    { t: "Pacto MFA-Partidos", c: "Antes das eleições, os militares impuseram um acordo aos partidos: a Constituição devia garantir a transição para o socialismo, manter tutela militar através do Conselho da Revolução, e as nacionalizações seriam irreversíveis." },
+                    { t: "Verão Quente de 1975", c: "A Assembleia Constituinte trabalhou sob pressão extrema: ignorada pelo poder militar, com condições precárias, e ameaçada por manifestações que exigiam o seu encerramento. Deputados chegaram a ser mantidos reféns a 12 de novembro." },
+                    { t: "Viragem do 25 de Novembro", c: "A derrota da ala militar radical alterou tudo. Um novo pacto em fevereiro de 1976 reduziu a tutela militar, extinguiu a Assembleia do MFA e estabeleceu a eleição direta do Presidente da República." },
+                    { t: "Transição para o Socialismo", c: "O texto original definia Portugal como República soberana com objetivo de transição para o socialismo, exercício democrático do poder pelas classes trabalhadoras, e socialização dos meios de produção." },
+                    { t: "Aliança Povo-MFA", c: "Na versão original, a soberania do povo era exercida em aliança com as Forças Armadas, consideradas 'garante das conquistas democráticas e do processo revolucionário'." },
+                    { t: "Direitos e Liberdades Fundamentais", c: "Rutura total com o Estado Novo: consagração da igualdade perante a lei, abolição da pena de morte, inviolabilidade da vida, liberdade de expressão, imprensa e criação de partidos políticos." },
+                    { t: "Direitos Sociais Revolucionários", c: "Pela primeira vez, a Constituição garantiu direitos ao trabalho, segurança social, saúde através de SNS universal e gratuito, e habitação. Um Estado social robusto, avançado até pelos padrões europeus da época." },
+                    { t: "Aprovação com Divisões", c: "Aprovada a 2 de abril de 1976 com consenso na organização política, mas o CDS votou contra devido à forte componente socialista: irreversibilidade das nacionalizações, reforma agrária e limitações à iniciativa privada." },
+                    { t: "Revisões de 1982 e 1989", c: "As principais revisões reduziram a carga ideológica, extinguiram o Conselho da Revolução (fim da tutela militar) e abriram a economia ao setor privado após a adesão à CEE em 1986." },
+                    { t: "Uma Constituição Viva", c: "Já sofreu 7 revisões constitucionais, adaptando-se às novas realidades. Apesar das transformações, a estrutura fundamental de direitos, liberdades e organização democrática continua a ser a base da República Portuguesa." }
+                ],
+                activity: { t: "A Minha Primeira Urna", c: "Simula uma eleição na turma para uma decisão simples. Usa voto secreto. Discute por que razão o voto livre é o pilar da nossa liberdade atual." },
+                quiz: [
+                    { q: "Qual o evento histórico 'pré-constituinte' da Constituição de 1976?", o: ["25 de Abril de 1974", "Entrada na CEE", "Guerra Colonial", "Morte de Salazar"], c: 0, f: "A Revolução dos Cravos abriu caminho à democracia." },
+                    { q: "Quem elaborou a Constituição de 1976?", o: ["O MFA sozinho", "Uma Assembleia Constituinte eleita", "O Presidente Spínola", "A União Europeia"], c: 1, f: "Foi redigida por deputados eleitos livremente pelo povo." },
+                    { q: "O texto original de 1976 apontava para...", o: ["Uma monarquia", "A transição para o socialismo", "O fascismo", "O feudalismo"], c: 1, f: "O texto original tinha uma forte carga ideológica socialista." },
+                    { q: "Que órgão militar foi extinto na revisão de 1982?", o: ["Conselho da Revolução", "Exército", "GNR", "Polícia Judiciária"], c: 0, f: "A extinção do Conselho da Revolução normalizou a democracia civil." },
+                    { q: "A Constituição de 1976 consagrou pela primeira vez...", o: ["O voto censitário", "O sufrágio universal pleno", "A escravatura", "A pena de morte"], c: 1, f: "Todos os cidadãos maiores de idade ganharam direito de voto." },
+                    { q: "Qual o sistema de governo consagrado?", o: ["Presidencialista", "Semipresidencialista", "Parlamentar puro", "Monárquico"], c: 1, f: "O poder é partilhado entre Presidente (eleito) e Parlamento/Governo." },
+                    { q: "Que documento de direitos humanos tem valor constitucional?", o: ["Declaração Universal dos Direitos do Homem", "Magna Carta", "Código de Hamurabi", "Bula Papal"], c: 0, f: "A DUDH é referenciada diretamente na Constituição." },
+                    { q: "A revisão de 1989 foi importante para permitir...", o: ["A prisão perpétua", "As reprivatizações", "O regresso do Rei", "A censura"], c: 1, f: "Permitou reverter as nacionalizações do período revolucionário." },
+                    { q: "O sistema eleitoral para a Assembleia da República é...", o: ["Maioritário (vence quem tem mais votos)", "Proporcional (Método de Hondt)", "Sorteio", "Uninominal"], c: 1, f: "Garante representação aos partidos segundo a sua percentagem de votos." },
+                    { q: "Qual a função do Tribunal Constitucional (criado em 1982)?", o: ["Julgar roubos", "Fiscalizar se as leis cumprem a Constituição", "Comandar a polícia", "Fazer leis"], c: 1, f: "É o guardião da Constituição." },
+                    { q: "A Constituição define Portugal como um Estado de...", o: ["Direito Democrático", "Novo", "Sítio", "Guerra"], c: 0, f: "O Estado de Direito garante que todos, incluindo o Estado, obedecem à lei." },
+                    { q: "O que são 'limites materiais' de revisão (cláusulas pétreas)?", o: ["Pedras da calçada", "Coisas que não se podem mudar na Constituição", "O muro de Berlim", "Materiais de construção"], c: 1, f: "São princípios intocáveis, como a forma republicana e os direitos dos trabalhadores." },
+                    { q: "Qual era o papel do 'Plataformas de Acordo Constitucional'?", o: ["Acordo entre MFA e Partidos", "Plano de comboios", "Tratado com Espanha", "Lei da Pesca"], c: 0, f: "Foi um pacto que impôs certas regras militares à Assembleia Constituinte." },
+                    { q: "A saúde é um direito garantido através de...", o: ["Seguros privados", "Serviço Nacional de Saúde (SNS)", "Caridade", "Sorte"], c: 1, f: "O SNS universal e tendencialmente gratuito é uma conquista de 1976." },
+                    { q: "Quantas revisões teve a Constituição de 1976 até hoje?", o: ["Nenhuma", "Sete", "Cinquenta", "Duas"], c: 1, f: "O texto foi ajustado 7 vezes para se adaptar aos tempos e à UE." },
+                    { q: "O que aconteceu à PIDE após a revolução?", o: ["Foi extinta", "Mudou de nome", "Continuou igual", "Foi elogiada"], c: 0, f: "A polícia política da ditadura foi desmantelada." },
+                    { q: "As regiões autónomas (Açores e Madeira) têm...", o: ["Independência total", "Estatutos Político-Administrativos próprios", "Reis próprios", "Moeda própria"], c: 1, f: "A Constituição garante autonomia política e administrativa às ilhas." },
+                    { q: "O Presidente da República é eleito por...", o: ["Voto direto dos cidadãos", "Parlamento", "Governo", "Sorteio"], c: 0, f: "É uma eleição direta, exigindo maioria absoluta." },
+                    { q: "Qual o limite de mandatos consecutivos do Presidente?", o: ["Um", "Dois", "Três", "Sem limite"], c: 1, f: "Pode cumprir no máximo dois mandatos seguidos (10 anos)." },
+                    { q: "A Constituição proíbe explicitamente partidos...", o: ["De esquerda", "De direita", "Fascistas ou racistas", "Ecológicos"], c: 2, f: "Organizações que perfilhem a ideologia fascista não são permitidas." }
+                ]
+            }
         };
 
         const MODULE_ORDER = ['intro', '1822', '1911', '1933', '1976', 'finish'];
@@ -383,7 +471,7 @@
             if (APP_STATE.quizState[moduleId][qIdx]) return; // Já respondido
 
             const isCorrect = oIdx === questionObj.c;
-            
+
             // Gravar estado local
             APP_STATE.quizState[moduleId][qIdx] = { selectedIndex: oIdx, isCorrect: isCorrect };
 
@@ -401,9 +489,9 @@
 
             render(); // Re-render para mostrar feedback
         }
-        
+
         // --- TECLADO E ACESSIBILIDADE ---
-        
+
         function handleNavKeydown(e) {
             const buttons = Array.from(e.currentTarget.querySelectorAll('button'));
             const index = buttons.indexOf(document.activeElement);
@@ -420,7 +508,7 @@
                 e.preventDefault();
             }
         }
-        
+
         function handleAccordionKeydown(e) {
             const buttons = Array.from(e.currentTarget.querySelectorAll('button[data-accordion="true"]'));
             const index = buttons.indexOf(document.activeElement);
@@ -503,7 +591,7 @@
             const modState = APP_STATE.quizState[moduleId] || {};
             const answeredCount = Object.keys(modState).length;
             const totalCount = questions.length;
-            
+
             return `
                 <div class="space-y-6">
                     <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-200 dark:border-slate-700">
@@ -513,13 +601,13 @@
                         </span>
                     </div>
                     ${questions.map((q, qIdx) => {
-                        const qState = modState[qIdx];
-                        const isAnswered = !!qState;
-                        
-                        let feedbackBlock = '';
-                        if (isAnswered) {
-                            const isCorrect = qState.isCorrect;
-                            feedbackBlock = `
+                const qState = modState[qIdx];
+                const isAnswered = !!qState;
+
+                let feedbackBlock = '';
+                if (isAnswered) {
+                    const isCorrect = qState.isCorrect;
+                    feedbackBlock = `
                                 <div class="p-5 rounded-2xl text-base font-bold border-l-8 animate-pulse ${isCorrect ? 'bg-emerald-50 text-emerald-700 border-emerald-500 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-600' : 'bg-rose-50 text-rose-700 border-rose-500 dark:bg-rose-900/30 dark:text-rose-300 dark:border-rose-600'}">
                                     <div class="flex items-center gap-2 mb-2">
                                         <i class="fas ${isCorrect ? 'fa-check-circle' : 'fa-info-circle'} text-xl"></i>
@@ -528,9 +616,9 @@
                                     <p class="font-normal text-sm md:text-base leading-relaxed">${q.f}</p>
                                 </div>
                             `;
-                        }
+                }
 
-                        return `
+                return `
                         <div class="bg-indigo-50/50 dark:bg-slate-800/50 p-6 md:p-8 rounded-[2rem] border border-white/50 dark:border-white/10 shadow-sm space-y-6 transition-all hover:bg-white dark:hover:bg-slate-800 hover:shadow-lg">
                             <div class="flex items-start gap-5">
                                 <span class="shrink-0 w-10 h-10 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center font-black text-lg text-indigo-600 dark:text-indigo-300">${qIdx + 1}</span>
@@ -541,7 +629,7 @@
                             </div>
                             ${feedbackBlock}
                         </div>`;
-                    }).join('')}
+            }).join('')}
                 </div>
             `;
         }
@@ -550,7 +638,7 @@
             questions.forEach((q, qIdx) => {
                 const container = document.getElementById(`quiz-opts-${moduleId}-${qIdx}`);
                 if (!container) return;
-                
+
                 const modState = APP_STATE.quizState[moduleId] || {};
                 const qState = modState[qIdx];
                 const isAnswered = !!qState;
@@ -558,7 +646,7 @@
                 // Clear and append
                 container.innerHTML = '';
                 q.o.forEach((opt, oIdx) => {
-                     let btnClass = "w-full text-left p-4 rounded-xl border-2 font-semibold transition-all duration-200 text-sm ";
+                    let btnClass = "w-full text-left p-4 rounded-xl border-2 font-semibold transition-all duration-200 text-sm ";
                     if (!isAnswered) {
                         btnClass += "border-white bg-white shadow-sm text-slate-600 hover:border-indigo-500 hover:text-indigo-700 hover:shadow-md dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:border-indigo-400 dark:hover:text-indigo-300";
                     } else {
@@ -573,7 +661,7 @@
                     const btn = document.createElement('button');
                     btn.className = btnClass;
                     btn.textContent = opt;
-                    if(isAnswered) btn.disabled = true;
+                    if (isAnswered) btn.disabled = true;
                     else btn.onclick = () => handleQuizAnswer(moduleId, qIdx, oIdx, q);
                     container.appendChild(btn);
                 });
@@ -629,10 +717,12 @@
                 </div>
             `).join('');
 
+            const activeTimeline = TIMELINE_DATA[APP_STATE.activeTimelineIdx];
+
             return `
             <div class="space-y-16 animate-fade-in pt-8">
                 <div class="text-center space-y-4">
-                    <span class="px-4 py-1.5 bg-white/10 border border-white/20 backdrop-blur-md rounded-full text-white text-[10px] font-black uppercase tracking-widest inline-block shadow-lg">Módulo I: Análise Comparativa</span>
+                    <span class="px-4 py-1.5 bg-white/10 border border-white/20 backdrop-blur-md rounded-full text-white text-[10px] font-black uppercase tracking-widest inline-block shadow-lg">Análise Comparativa</span>
                     <h2 class="serif text-4xl md:text-6xl font-black text-white drop-shadow-lg">Ruturas & Evoluções</h2>
                     <p class="text-lg text-indigo-100 max-w-3xl mx-auto font-light drop-shadow-md">Uma sucessão de textos fundamentais que definem a modernidade jurídica portuguesa.</p>
                 </div>
@@ -652,9 +742,14 @@
                     </div>
                     <!-- Active Card -->
                     <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border border-indigo-50 dark:border-slate-700 text-center animate-fade-in transition-colors">
-                         <h3 class="text-2xl font-black text-indigo-900 dark:text-white mb-2">${TIMELINE_DATA[APP_STATE.activeTimelineIdx].title}</h3>
-                         <p class="text-slate-600 dark:text-slate-300 mb-6">${TIMELINE_DATA[APP_STATE.activeTimelineIdx].desc}</p>
-                         <button onclick="navigateTo('${TIMELINE_DATA[APP_STATE.activeTimelineIdx].target}')" class="px-6 py-2 bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-200 rounded-full font-bold text-sm hover:bg-indigo-200 transition">Explorar Módulo <i class="fas fa-arrow-right ml-1"></i></button>
+                         <h3 class="text-2xl font-black text-indigo-900 dark:text-white mb-2">${activeTimeline.title}</h3>
+                         <p class="text-slate-600 dark:text-slate-300 mb-6">${activeTimeline.desc}</p>
+                         <div class="flex flex-wrap justify-center gap-4">
+                             <button onclick="navigateTo('${activeTimeline.target}')" class="px-6 py-2.5 bg-indigo-600 text-white rounded-full font-bold text-sm hover:bg-indigo-700 transition shadow-md">Explorar Módulo <i class="fas fa-arrow-right ml-1"></i></button>
+                             <a href="${activeTimeline.pdf}" target="_blank" class="px-6 py-2.5 bg-rose-100 dark:bg-rose-900 text-rose-700 dark:text-rose-200 rounded-full font-bold text-sm hover:bg-rose-200 transition flex items-center gap-2 shadow-sm border border-rose-200 dark:border-rose-800">
+                                <i class="fas fa-file-pdf"></i> Ver Texto Original (PDF)
+                             </a>
+                         </div>
                     </div>
                 </div>
 
@@ -869,7 +964,7 @@
             else if (MODULES[APP_STATE.view]) content = renderModuleView(MODULES[APP_STATE.view]);
 
             root.innerHTML = nav + '<main class="max-w-7xl w-full mx-auto p-4 md:p-8 pb-32 flex-1 flex flex-col">' + content + '</main>';
-            
+
             // Post-render logic (Quiz Buttons)
             if (APP_STATE.view === 'intro') postRenderQuiz(INTRO_QUIZ, 'intro');
             else if (MODULES[APP_STATE.view]) postRenderQuiz(MODULES[APP_STATE.view].quiz, APP_STATE.view);
@@ -897,9 +992,9 @@
         async function handleShare() {
             const text = `Concluí a jornada constitucional com ${Math.round((APP_STATE.user.score / TOTAL_QUESTIONS) * 100)}% de sucesso!`;
             if (navigator.share) {
-                try { await navigator.share({ title: 'Portugal Constitucional', text: text, url: window.location.href }); } catch(e){}
+                try { await navigator.share({ title: 'Portugal Constitucional', text: text, url: window.location.href }); } catch (e) { }
             } else {
-                try { await navigator.clipboard.writeText(text + ' ' + window.location.href); alert('Texto copiado!'); } catch(e){}
+                try { await navigator.clipboard.writeText(text + ' ' + window.location.href); alert('Texto copiado!'); } catch (e) { }
             }
         }
 
@@ -963,7 +1058,7 @@
                             <div class="w-10 h-10 shrink-0 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
                             <div>
                                 <h4 class="font-bold text-lg mb-1">Navegação por Módulos</h4>
-                                <p class="text-slate-600 dark:text-slate-400 text-sm">Utiliza a barra superior para viajar entre as diferentes Constituições (1822, 1911, 1933, 1976).</p>
+                                <p class="text-slate-600 dark:text-slate-400 text-sm">Utiliza a barra superior para viajar entre os módulos e o texto original das diferentes Constituições (1822, 1911, 1933, 1976).</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
@@ -997,7 +1092,7 @@
         }
 
         function openReview() {
-            const answersHtml = APP_STATE.user.answers.length === 0 ? '<p class="text-center text-slate-500 dark:text-slate-400">Ainda não respondeste a nenhuma questão.</p>' : 
+            const answersHtml = APP_STATE.user.answers.length === 0 ? '<p class="text-center text-slate-500 dark:text-slate-400">Ainda não respondeste a nenhuma questão.</p>' :
                 APP_STATE.user.answers.map(ans => `
                     <div class="p-6 rounded-2xl border-l-4 ${ans.isCorrect ? 'bg-emerald-50 border-emerald-500 dark:bg-emerald-900/20 dark:border-emerald-500' : 'bg-rose-50 border-rose-500 dark:bg-rose-900/20 dark:border-rose-500'}">
                         <p class="text-xs font-black opacity-50 uppercase tracking-widest mb-2 dark:text-slate-300">${ans.moduleId === 'intro' ? 'Introdução' : `Constituição de ${ans.moduleId}`}</p>
@@ -1020,7 +1115,7 @@
 
         function printChallenge() {
             const printWindow = window.open('', '_blank');
-            if(printWindow) {
+            if (printWindow) {
                 printWindow.document.write(`
                     <html><head><title>Reflexão Constitucional</title>
                     <style>body{font-family:sans-serif;padding:40px;line-height:1.6;}.box{background:#f8fafc;padding:20px;border-radius:10px;border:1px solid #e2e8f0;margin-top:20px;}</style></head>
@@ -1032,9 +1127,10 @@
         }
 
         // --- INIT ---
-        document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
         init();
 
     </script>
 </body>
+
 </html>
